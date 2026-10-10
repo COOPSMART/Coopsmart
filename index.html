@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="COOPSMART is a cooperative management system for members, financial records, agricultural produce and cooperative activities.">
+  <title>COOPSMART | Cooperative Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand-mark">C</div>
+  <div class="brand-copy">
+    <h1>COOPSMART</h1>
+    <p>Smarter cooperative management</p>
+  </div>
+  <span class="prototype-badge">BETA</span>
+</header>
+
+<main class="page-wrap">
+
+  <section class="intro" id="introSection">
+    <div>
+      <p class="eyebrow">COOPERATIVES • MEMBERS • RECORDS</p>
+      <h2>Manage your cooperative in one place.</h2>
+      <p class="intro-text">COOPSMART helps cooperatives organize membership records, manage financial transactions, monitor agricultural produce and access important management information.</p>
+    </div>
+  </section>
+
+  <!-- REGISTER A COOPERATIVE -->
+  <section class="card" id="setupSection">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">GET STARTED</p>
+        <h2>Register a cooperative</h2>
+      </div>
+      <span class="step-pill">New</span>
+    </div>
+    <p class="notice">You will become the cooperative's Manager. Use your real email address and a strong password.</p>
+    <form id="cooperativeForm" class="form-grid">
+      <label>Cooperative name
+        <input id="cooperativeName" required maxlength="100" placeholder="e.g. Mphatso Farmers Cooperative">
+      </label>
+      <label>Cooperative type
+        <select id="cooperativeType" required>
+          <option value="">Choose type</option>
+          <option value="SACCO">SACCO</option>
+          <option value="Agricultural Cooperative">Agricultural Cooperative</option>
+          <option value="Marketing Cooperative">Marketing Cooperative</option>
+          <option value="Consumer Cooperative">Consumer Cooperative</option>
+          <option value="Other Cooperative">Other Cooperative</option>
+        </select>
+      </label>
+      <label>Registration number
+        <input id="cooperativeRegistration" required maxlength="60" placeholder="Unique registration number">
+      </label>
+      <label>District
+        <input id="cooperativeDistrict" required maxlength="60" placeholder="e.g. Salima">
+      </label>
+      <label>Your full name
+        <input id="registrantName" required maxlength="100" autocomplete="name">
+      </label>
+      <label>Your email
+        <input id="registrantEmail" type="email" required autocomplete="email">
+      </label>
+      <label>Password (at least 8 characters)
+        <input id="registrantPassword" type="password" required minlength="8" autocomplete="new-password">
+      </label>
+      <div class="form-actions">
+        <button type="submit">Register Cooperative</button>
+      </div>
+    </form>
+    <div id="cooperativeMessage" class="message" role="status"></div>
+  </section>
+
+  <!-- LOGIN -->
+  <section class="card" id="loginSection">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">ACCOUNT ACCESS</p>
+        <h2>Log in to COOPSMART</h2>
+      </div>
+    </div>
+    <form id="loginForm" class="form-grid">
+      <label class="full-width">I am logging in as
+        <select id="loginMode">
+          <option value="staff">Staff (email)</option>
+          <option value="member">Member (username)</option>
+        </select>
+      </label>
+      <label id="loginEmailWrap">Email
+        <input id="loginEmail" type="email" autocomplete="username">
+      </label>
+      <label id="loginRegWrap" hidden>Cooperative registration number
+        <input id="loginReg" autocomplete="off">
+      </label>
+      <label id="loginUserWrap" hidden>Username
+        <input id="loginUsername" autocomplete="username">
+      </label>
+      <label>Password
+        <input id="loginPassword" type="password" required autocomplete="current-password">
+      </label>
+      <div class="form-actions">
+        <button type="submit">Log In</button>
+      </div>
+    </form>
+    <div id="loginMessage" class="message" role="status"></div>
+  </section>
+
+  <!-- MAIN APPLICATION -->
+  <section id="appSection" hidden>
+
+    <div class="session-bar card">
+      <div>
+        <p class="eyebrow">CURRENT SESSION</p>
+        <h2 id="currentUserName">User</h2>
+        <p><span id="currentUserRole"></span> · <span id="currentUserCooperative"></span></p>
+      </div>
+      <button id="logoutButton" class="button-secondary" type="button">Log Out</button>
+    </div>
+
+    <!-- STAFF DASHBOARD -->
+    <section id="staffDashboard" hidden>
+
+      <div class="dashboard-title">
+        <p class="eyebrow">STAFF WORKSPACE</p>
+        <h2>Cooperative dashboard</h2>
+        <p class="muted">Monitor cooperative performance, review records and manage daily activities.</p>
+      </div>
+
+      <section class="card dashboard-navigation" data-module="core">
+        <div class="section-heading"><div><p class="eyebrow">QUICK ACCESS</p><h3>Management shortcuts</h3></div></div>
+        <nav class="dashboard-quick-links" aria-label="Dashboard shortcuts">
+          <a href="#membersModule" class="quick-link">Members</a>
+          <a href="#sharesModule" class="quick-link">Shares</a>
+          <a href="#savingsModule" class="quick-link">Savings</a>
+          <a href="#loansModule" class="quick-link">Loans</a>
+          <a href="#repaymentsModule" class="quick-link">Repayments</a>
+          <a href="#produceModule" class="quick-link">Produce</a>
+          <a href="#salesModule" class="quick-link">Sales</a>
+          <a href="#reportsModule" class="quick-link">Reports</a>
+        </nav>
+      </section>
+
+      <section class="dashboard-overview">
+        <div class="section-heading"><div><p class="eyebrow">PERFORMANCE OVERVIEW</p><h3>Cooperative at a glance</h3></div></div>
+        <div class="dashboard-summary-grid">
+          <article class="dashboard-stat-card"><div class="dashboard-stat-icon" aria-hidden="true">👥</div><div><span>Total members</span><strong id="dashboardMembers">0</strong><small>Registered members</small></div></article>
+          <article class="dashboard-stat-card" data-module="core"><div class="dashboard-stat-icon" aria-hidden="true">📊</div><div><span>Shares owned</span><strong id="dashboardShares">0</strong><small>Total number of shares</small></div></article>
+          <article class="dashboard-stat-card" data-module="core"><div class="dashboard-stat-icon" aria-hidden="true">💰</div><div><span>Total share value</span><strong id="dashboardShareValue">MWK 0</strong><small>Recorded share value</small></div></article>
+          <article class="dashboard-stat-card" data-module="sacco"><div class="dashboard-stat-icon" aria-hidden="true">🏦</div><div><span>Savings balance</span><strong id="dashboardSavings">MWK 0</strong><small>Deposits less withdrawals</small></div></article>
+          <article class="dashboard-stat-card" data-module="sacco"><div class="dashboard-stat-icon" aria-hidden="true">📋</div><div><span>Loans issued</span><strong id="dashboardLoansIssued">MWK 0</strong><small>Total loan principal</small></div></article>
+          <article class="dashboard-stat-card" data-module="sacco"><div class="dashboard-stat-icon" aria-hidden="true">💳</div><div><span>Outstanding loans</span><strong id="dashboardOutstanding">MWK 0</strong><small>Amounts not yet repaid</small></div></article>
+          <article class="dashboard-stat-card" data-module="sacco"><div class="dashboard-stat-icon" aria-hidden="true">📑</div><div><span>Active loans</span><strong id="dashboardActiveLoans">0</strong><small>Loans with balances</small></div></article>
+          <article class="dashboard-stat-card" data-module="sacco"><div class="dashboard-stat-icon" aria-hidden="true">💵</div><div><span>Total repayments</span><strong id="dashboardRepayments">MWK 0</strong><small>Recorded repayments</small></div></article>
+          <article class="dashboard-stat-card" data-module="agriculture"><div class="dashboard-stat-icon" aria-hidden="true">🌾</div><div><span>Produce received</span><strong id="dashboardProduce">0</strong><small>Total recorded quantity</small></div></article>
+          <article class="dashboard-stat-card" data-module="sales"><div class="dashboard-stat-icon" aria-hidden="true">🛒</div><div><span>Total sales</span><strong id="dashboardSales">MWK 0</strong><small>Recorded sales value</small></div></article>
+          <article class="dashboard-stat-card" data-module="inventory"><div class="dashboard-stat-icon" aria-hidden="true">📦</div><div><span>Inventory items</span><strong id="dashboardInventoryItems">0</strong><small>Tracked produce</small></div></article>
+          <article class="dashboard-stat-card" data-module="inventory"><div class="dashboard-stat-icon" aria-hidden="true">⚠️</div><div><span>Low-stock items</span><strong id="dashboardLowStock">0</strong><small>Items needing attention</small></div></article>
+        </div>
+      </section>
+
+      <div class="dashboard-panels">
+        <section class="card dashboard-panel" data-permission="activity" data-module="core">
+          <div class="section-heading"><div><p class="eyebrow">IMPORTANT UPDATES</p><h3>Notifications and alerts</h3></div></div>
+          <div id="dashboardNotifications" class="record-list" aria-live="polite"></div>
+        </section>
+        <section class="card dashboard-panel" data-permission="activity" data-module="core">
+          <div class="section-heading"><div><p class="eyebrow">RECENT UPDATES</p><h3>Recent activities</h3></div></div>
+          <div id="dashboardRecentActivities" class="record-list" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <div class="dashboard-grid">
+
+        <!-- MEMBERS -->
+        <section id="membersModule" class="card" data-permission="members" data-module="core">
+          <div class="section-heading"><div><p class="eyebrow">MEMBERSHIP</p><h3>Member management</h3></div></div>
+          <form id="memberForm" class="stack-form">
+            <label>Member number<input id="memberNumber" required maxlength="50" placeholder="Unique member number"></label>
+            <label>Full name<input id="memberFullName" required maxlength="100"></label>
+            <label>Phone number<input id="memberPhone" maxlength="30" placeholder="Optional"></label>
+            <label>Gender
+              <select id="memberGender">
+                <option value="">Not specified</option>
+                <option>Female</option>
+                <option>Male</option>
+                <option>Other / Prefer not to say</option>
+              </select>
+            </label>
+            <label>Registration date<input id="memberDate" type="date" required></label>
+            <button type="submit">Register Member</button>
+          </form>
+          <label class="search-label">Search members<input id="memberSearch" placeholder="Search number or name"></label>
+          <div id="memberList" class="record-list"></div>
+        </section>
+
+        <!-- SHARES -->
+        <section id="sharesModule" class="card" data-permission="shares" data-module="core">
+          <h3>Shares management</h3>
+          <form id="shareForm" class="stack-form">
+            <label>Member<select id="shareMember" required></select></label>
+            <label>Number of shares<input id="shareQuantity" type="number" min="1" step="1" required></label>
+            <label>Price per share (MWK)<input id="sharePrice" type="number" min="0.01" step="0.01" required></label>
+            <label>Date<input id="shareDate" type="date" required></label>
+            <button type="submit">Record Shares</button>
+          </form>
+          <div id="shareList" class="record-list"></div>
+        </section>
+
+        <!-- SAVINGS -->
+        <section id="savingsModule" class="card" data-permission="savings" data-module="sacco">
+          <h3>Savings management</h3>
+          <form id="savingsForm" class="stack-form">
+            <label>Member<select id="savingsMember" required></select></label>
+            <label>Transaction type
+              <select id="savingsTransaction">
+                <option value="Deposit">Deposit</option>
+                <option value="Withdrawal">Withdrawal</option>
+              </select>
+            </label>
+            <label>Amount (MWK)<input id="savingsAmount" type="number" min="0.01" step="0.01" required></label>
+            <label>Date<input id="savingsDate" type="date" required></label>
+            <button type="submit">Record Savings</button>
+          </form>
+          <div id="savingsList" class="record-list"></div>
+        </section>
+
+        <!-- LOANS -->
+        <section id="loansModule" class="card" data-permission="loans" data-module="sacco">
+          <h3>Loan management</h3>
+          <form id="loanForm" class="stack-form">
+            <label>Member<select id="loanMember" required></select></label>
+            <label>Loan purpose/type<input id="loanType" required maxlength="100" placeholder="e.g. Farm inputs"></label>
+            <label>Principal amount (MWK)<input id="loanAmount" type="number" min="1" step="0.01" required></label>
+            <label>Simple interest rate (%)<input id="loanInterest" type="number" min="0" max="1000" step="0.01" required></label>
+            <label>Term (months)<input id="loanTerm" type="number" min="1" max="600" step="1" required></label>
+            <label>Date<input id="loanDate" type="date" required></label>
+            <button type="submit">Record Loan</button>
+          </form>
+          <div id="loanList" class="record-list"></div>
+        </section>
+
+        <!-- REPAYMENTS -->
+        <section id="repaymentsModule" class="card" data-permission="repayments" data-module="sacco">
+          <h3>Loan repayments</h3>
+          <form id="repaymentForm" class="stack-form">
+            <label>Loan<select id="repaymentLoan" required></select></label>
+            <label>Repayment amount (MWK)<input id="repaymentAmount" type="number" min="0.01" step="0.01" required></label>
+            <label>Date<input id="repaymentDate" type="date" required></label>
+            <button type="submit">Record Repayment</button>
+          </form>
+          <div id="repaymentList" class="record-list"></div>
+        </section>
+
+        <!-- PRODUCE -->
+        <section id="produceModule" class="card" data-permission="produce" data-module="agriculture">
+          <h3>Agricultural produce received</h3>
+          <form id="produceForm" class="stack-form">
+            <label>Member<select id="produceMember" required></select></label>
+            <label>Produce
+              <select id="produceName">
+                <option>Maize</option><option>Soybeans</option><option>Groundnuts</option>
+                <option>Beans</option><option>Tobacco</option><option>Rice</option>
+                <option>Potatoes</option><option>Other</option>
+              </select>
+            </label>
+            <label>Quantity<input id="produceQuantity" type="number" min="0.01" step="0.01" required></label>
+            <label>Unit
+              <select id="produceUnit">
+                <option>kg</option><option>tonnes</option><option>bags</option>
+                <option>crates</option><option>units</option>
+              </select>
+            </label>
+            <label>Date received<input id="produceDate" type="date" required></label>
+            <button type="submit">Record Produce</button>
+          </form>
+          <div id="produceList" class="record-list"></div>
+        </section>
+
+        <!-- SALES -->
+        <section id="salesModule" class="card" data-permission="sales" data-module="sales">
+          <h3>Sales management</h3>
+          <form id="saleForm" class="stack-form">
+            <label>Item type
+              <select id="saleType">
+                <option value="Produce">Produce</option>
+                <option value="Product">Product</option>
+              </select>
+            </label>
+            <label>Item name<input id="saleItemName" required maxlength="100" placeholder="e.g. Maize"></label>
+            <label>Quantity sold<input id="saleQuantity" type="number" min="0.01" step="0.01" required></label>
+            <label>Unit
+              <select id="saleUnit">
+                <option>kg</option><option>tonnes</option><option>bags</option>
+                <option>crates</option><option>units</option>
+              </select>
+            </label>
+            <label>Price per unit (MWK)<input id="salePrice" type="number" min="0.01" step="0.01" required></label>
+            <label>Date<input id="saleDate" type="date" required></label>
+            <button type="submit">Record Sale</button>
+          </form>
+          <div id="saleList" class="record-list"></div>
+        </section>
+
+        <!-- INVENTORY -->
+        <section class="card" data-permission="inventory" data-module="inventory">
+          <h3>Inventory overview</h3>
+          <p class="muted">Agricultural inventory is calculated from produce received and sales.</p>
+          <div id="inventoryList" class="record-list"></div>
+        </section>
+
+        <!-- REPORTS -->
+        <section id="reportsModule" class="card" data-permission="reports" data-module="core">
+          <div class="section-heading">
+            <div><p class="eyebrow">MANAGEMENT INFORMATION</p><h3>System reports</h3></div>
+            <button id="refreshReports" class="button-small button-secondary" type="button">Refresh</button>
+          </div>
+          <p class="muted" id="reportCooperativeName"></p>
+          <div class="stats-grid">
+            <div class="stat"><span>Members</span><strong id="reportMembers">0</strong></div>
+            <div class="stat"><span>Shares</span><strong id="reportShares">0</strong></div>
+            <div class="stat"><span>Share value</span><strong id="reportShareValue">MWK 0</strong></div>
+            <div class="stat" data-module="sacco"><span>Savings balance</span><strong id="reportSavings">MWK 0</strong></div>
+            <div class="stat" data-module="sacco"><span>Loans issued</span><strong id="reportLoans">MWK 0</strong></div>
+            <div class="stat" data-module="sacco"><span>Repayments</span><strong id="reportRepayments">MWK 0</strong></div>
+            <div class="stat" data-module="sacco"><span>Outstanding loans</span><strong id="reportOutstanding">MWK 0</strong></div>
+            <div class="stat" data-module="sacco"><span>Active loans</span><strong id="reportActiveLoans">0</strong></div>
+            <div class="stat" data-module="agriculture"><span>Produce received</span><strong id="reportProduce">0</strong></div>
+            <div class="stat" data-module="sales"><span>Total sales</span><strong id="reportSales">MWK 0</strong></div>
+            <div class="stat" data-module="inventory"><span>Inventory items</span><strong id="reportInventoryItems">0</strong></div>
+            <div class="stat" data-module="inventory"><span>Low-stock items</span><strong id="reportLowStock">0</strong></div>
+          </div>
+        </section>
+
+        <!-- USERS -->
+        <section class="card" data-permission="users" data-module="core">
+          <h3>Cooperative users</h3>
+          <p class="notice">Creating staff and member accounts is the next feature to be added.</p>
+          <div id="userList" class="record-list"></div>
+        </section>
+
+        <!-- ACTIVITY -->
+        <section class="card" data-permission="activity" data-module="core">
+          <h3>Activity history</h3>
+          <p class="muted">Recent actions. This log cannot be edited or deleted.</p>
+          <div id="activityList" class="record-list"></div>
+        </section>
+
+        <!-- STAFF NOTIFICATIONS -->
+        <section class="card" data-permission="activity" data-module="core">
+          <h3>Staff notifications</h3>
+          <div id="staffNotifications" class="record-list"></div>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- MEMBER DASHBOARD -->
+    <section id="memberDashboard" hidden>
+
+      <div class="dashboard-title">
+        <p class="eyebrow">MEMBER WORKSPACE</p>
+        <h2 id="memberWelcome">Welcome</h2>
+        <p class="muted">View your membership information, financial records and notifications.</p>
+      </div>
+
+      <div class="dashboard-summary-grid">
+        <section class="card" data-module="core">
+          <h3>My shares</h3>
+          <div class="stat"><span>Number of shares</span><strong id="myShareQuantity">0</strong></div>
+          <div class="stat"><span>Share value</span><strong id="myShareValue">MWK 0</strong></div>
+        </section>
+        <section class="card" data-module="sacco">
+          <h3>My savings</h3>
+          <div class="stat"><span>Savings balance</span><strong id="mySavingsBalance">MWK 0</strong></div>
+        </section>
+        <section class="card" data-module="sacco">
+          <h3>My loans</h3>
+          <div id="myLoanList" class="record-list"></div>
+        </section>
+      </div>
+
+      <div class="dashboard-grid">
+        <section class="card" data-module="core">
+          <h3>My membership details</h3>
+          <p><span class="muted">Name:</span> <strong id="myMemberName">—</strong></p>
+          <p><span class="muted">Username:</span> <strong id="myMemberUsername">—</strong></p>
+          <p><span class="muted">Member number:</span> <strong id="myMemberNumber">—</strong></p>
+          <p><span class="muted">Cooperative:</span> <strong id="myMemberCooperative">—</strong></p>
+        </section>
+        <section class="card" data-module="sacco">
+          <h3>My repayments</h3>
+          <div id="myRepaymentList" class="record-list"></div>
+        </section>
+        <section class="card" data-module="core">
+          <h3>My notifications</h3>
+          <div id="memberNotifications" class="record-list"></div>
+        </section>
+        <section class="card" data-module="core">
+          <div class="section-heading">
+            <div><p class="eyebrow">FINANCIAL RECORDS</p><h3>My statement</h3></div>
+            <div class="inline-actions">
+              <button id="refreshStatement" class="button-small button-secondary" type="button">Refresh</button>
+              <button id="printStatement" class="button-small" type="button">Print / Save PDF</button>
+            </div>
+          </div>
+          <div id="myStatement"><p>Log in to view your statement.</p></div>
+        </section>
+      </div>
+    </section>
+
+  </section>
+
+  <footer>
+    <p>COOPSMART beta · Records are stored securely in the cloud</p>
+  </footer>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
